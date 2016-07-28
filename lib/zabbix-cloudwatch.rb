@@ -86,7 +86,7 @@ module ZabbixCloudwatch
       test_aws_connectivity
       set_time_range
       set_statistics
-      ret = aws.get_metric_statisticss(namespace: options['namespace'],
+      ret = aws.get_metric_statistics(namespace: options['namespace'],
                                       metric_name: options['metricname'],
                                       dimensions: [{ name: options['dimension-name'], value: options['dimension-value'] }],
                                       period: period,
