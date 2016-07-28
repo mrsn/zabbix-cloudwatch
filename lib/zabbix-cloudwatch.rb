@@ -1,4 +1,3 @@
-require 'zabbix-cloudwatch/version'
 require 'aws-sdk'
 
 module ZabbixCloudwatch
@@ -7,7 +6,7 @@ module ZabbixCloudwatch
     class MetricnameArgumentMissingException < StandardError; end
     class DimensionArgumentMissingException < StandardError; end
     class MonitoringTypeArgumentException < StandardError; end
-    class statisticsTypeArgumentException < StandardError; end
+    class StatisticsTypeArgumentException < StandardError; end
     class AwsAccessKeyMissingException < StandardError; end
     class AwsSecretKeyMissingException < StandardError; end
     class BadAWSAccessKeysException < StandardError; end
@@ -40,7 +39,7 @@ module ZabbixCloudwatch
         if options['statistics'] =~ /Minimum|Maximum|Average|Sum|SampleCount/
           self.statistics = options['statistics']
         else
-          raise statisticsTypeArgumentException, 'statistics type must be one of: Minimum, Maximum, Average, Sum, SampleCount. '
+          raise StatisticsTypeArgumentException, 'statistics type must be one of: Minimum, Maximum, Average, Sum, SampleCount. '
         end
       else
         self.statistics = 'Average'
@@ -92,7 +91,7 @@ module ZabbixCloudwatch
                                       period: period,
                                       start_time: start_time,
                                       end_time: end_time,
-                                      statisticss: [statistics])
+                                      statistics: [statistics])
       begin
         symbol = statistics.downcase.to_sym
         symbol = :sample_count if symbol == :samplecount

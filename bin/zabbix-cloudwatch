@@ -1,13 +1,7 @@
 #!/usr/bin/env ruby
 
-begin
-  require 'zabbix-cloudwatch'
-  require 'getopt/long'
-rescue
-  require 'rubygems'
-  require 'zabbix-cloudwatch'
-  require 'getopt/long'
-end
+require 'getopt/long'
+require '../lib/zabbix-cloudwatch'
 
 aws_access_key = ''
 aws_secret_key = ''
@@ -37,7 +31,7 @@ Usage: #{$PROGRAM_NAME}
   -d, --dimension-name    Dimension Name (AutoScalingGroupName, etc...)
   --dimension-value       Dimension Value
   -t, --monitoring-type   detailed|basic                            Default: basic
-  -s, --statistics         Minimum|Maximum|Average|Sum|SampleCount   Default: Average
+  -s, --statistics        Minimum|Maximum|Average|Sum|SampleCount   Default: Average
   --aws-access-key        AWS Access Key
   --aws-secret-key        AWS Secret Key
   --aws-region            AWS Region                                Default: us-east-1

@@ -100,7 +100,7 @@ module ZabbixCloudwatch
       it "Should raise a statisticsTypeArgumentException when the statistics option is not set to one of 'Minimum, Maximum, Average, Sum, SampleCount" do
         options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test', 'statistics' => 'Test' }
         @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-        -> { @inst.set_statistics }.should raise_error GetCloudwatchMetric::statisticsTypeArgumentException
+        -> { @inst.set_statistics }.should raise_error GetCloudwatchMetric::StatisticsTypeArgumentException
       end
     end
     #
@@ -140,7 +140,7 @@ module ZabbixCloudwatch
     #    options = {"namespace" => 'AWS/EC2', "metricname" => 'CPU', "dimension-value" => 'EC2Instance', "dimension-name" => 'test', "aws-access-key" => 'test', "aws-secret-key" => 'test'}
     #    Aws.stub!
     #    @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-    #    @stb = @inst.aws.stub_for(:get_metric_statisticss)
+    #    @stb = @inst.aws.stub_for(:get_metric_statistics)
     #  end
     #  it "exits 1 when there are no datapoints" do
     #    @stb.data = Hash.new
