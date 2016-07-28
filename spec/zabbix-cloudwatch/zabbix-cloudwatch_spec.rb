@@ -84,23 +84,23 @@ module ZabbixCloudwatch
         -> { @inst.set_time_range }.should raise_error GetCloudwatchMetric::MonitoringTypeArgumentException
       end
     end
-    describe '#set_statistic' do
-      it 'Should set the statistic type to Average when statistic option is not set' do
+    describe '#set_statistics' do
+      it 'Should set the statistics type to Average when statistics option is not set' do
         options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test' }
         @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-        @inst.set_statistic
-        @inst.statistic.should eq('Average')
+        @inst.set_statistics
+        @inst.statistics.should eq('Average')
       end
-      it 'Should set the statistic type to Sum when statistic option is set to Sum' do
-        options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test', 'statistic' => 'Sum' }
+      it 'Should set the statistics type to Sum when statistics option is set to Sum' do
+        options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test', 'statistics' => 'Sum' }
         @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-        @inst.set_statistic
-        @inst.statistic.should eq('Sum')
+        @inst.set_statistics
+        @inst.statistics.should eq('Sum')
       end
-      it "Should raise a StatisticTypeArgumentException when the statistic option is not set to one of 'Minimum, Maximum, Average, Sum, SampleCount" do
-        options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test', 'statistic' => 'Test' }
+      it "Should raise a statisticsTypeArgumentException when the statistics option is not set to one of 'Minimum, Maximum, Average, Sum, SampleCount" do
+        options = { 'namespace' => 'AWS/EC2', 'metricname' => 'CPU', 'dimension-value' => 'EC2Instance', 'dimension-name' => 'test', 'aws-access-key' => 'test', 'aws-secret-key' => 'test', 'statistics' => 'Test' }
         @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-        -> { @inst.set_statistic }.should raise_error GetCloudwatchMetric::StatisticTypeArgumentException
+        -> { @inst.set_statistics }.should raise_error GetCloudwatchMetric::statisticsTypeArgumentException
       end
     end
     #
@@ -108,7 +108,7 @@ module ZabbixCloudwatch
     #
     # describe "#run! (real)" do
     #  it "Raises BadAWSAccessKeysException when the AWS Keys and/or Region are incorrect in the options" do
-    #    options = {"namespace" => 'AWS/EC2', "metricname" => 'CPU', "dimension-value" => 'EC2Instance', "dimension-name" => 'test', "aws-access-key" => '', "aws-secret-key" => '', "statistic" => "Sum"}
+    #    options = {"namespace" => 'AWS/EC2', "metricname" => 'CPU', "dimension-value" => 'EC2Instance', "dimension-name" => 'test', "aws-access-key" => '', "aws-secret-key" => '', "statistics" => "Sum"}
     #    lambda {ZabbixCloudwatch::GetCloudwatchMetric.new(options).run!}.should raise_error GetCloudwatchMetric::BadAWSAccessKeysException
     #  end
     # end
@@ -140,7 +140,7 @@ module ZabbixCloudwatch
     #    options = {"namespace" => 'AWS/EC2', "metricname" => 'CPU', "dimension-value" => 'EC2Instance', "dimension-name" => 'test', "aws-access-key" => 'test', "aws-secret-key" => 'test'}
     #    Aws.stub!
     #    @inst = ZabbixCloudwatch::GetCloudwatchMetric.new(options)
-    #    @stb = @inst.aws.stub_for(:get_metric_statistics)
+    #    @stb = @inst.aws.stub_for(:get_metric_statisticss)
     #  end
     #  it "exits 1 when there are no datapoints" do
     #    @stb.data = Hash.new
@@ -156,20 +156,20 @@ module ZabbixCloudwatch
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.0\n")
     #  end
-    #  it "puts the metric that matches the statistic" do
+    #  it "puts the metric that matches the statistics" do
     #    @stb.data = {:datapoints => [ { :average => '10.0', :minimum => '10.1', :maximum => '10.2', :sample_count => '10.3', :sum => '10.4' } ] }
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.0\n")
-    #    @inst.options["statistic"] = "Minimum"
+    #    @inst.options["statistics"] = "Minimum"
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.1\n")
-    #    @inst.options["statistic"] = "Maximum"
+    #    @inst.options["statistics"] = "Maximum"
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.2\n")
-    #    @inst.options["statistic"] = "SampleCount"
+    #    @inst.options["statistics"] = "SampleCount"
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.3\n")
-    #    @inst.options["statistic"] = "Sum"
+    #    @inst.options["statistics"] = "Sum"
     #    output = capture_stdout {@inst.run!}
     #    output.should eq("10.4\n")
     #  end
