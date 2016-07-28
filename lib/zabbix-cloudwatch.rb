@@ -30,7 +30,7 @@ module ZabbixCloudwatch
       region = if options.key?('aws-region') && options['aws-region'] != ''
                  options['aws-region']
                else
-                 'us-east-1'
+                 'eu-central-1'
                end
       { access_key_id: options['aws-access-key'], secret_access_key: options['aws-secret-key'], region: region }
     end
