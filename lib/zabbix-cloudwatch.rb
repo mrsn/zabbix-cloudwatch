@@ -7,12 +7,12 @@ module ZabbixCloudwatch
     class MetricnameArgumentMissingException < StandardError; end
     class DimensionArgumentMissingException < StandardError; end
     class MonitoringTypeArgumentException < StandardError; end
-    class StatisticTypeArgumentException < StandardError; end
+    class statisticsTypeArgumentException < StandardError; end
     class AwsAccessKeyMissingException < StandardError; end
     class AwsSecretKeyMissingException < StandardError; end
     class BadAWSAccessKeysException < StandardError; end
 
-    attr_accessor :options, :aws, :start_time, :end_time, :period, :statistic
+    attr_accessor :options, :aws, :start_time, :end_time, :period, :statistics
 
     def initialize(options = {})
       self.options = options
@@ -35,15 +35,15 @@ module ZabbixCloudwatch
       { access_key_id: options['aws-access-key'], secret_access_key: options['aws-secret-key'], region: region }
     end
 
-    def set_statistic
-      if options.key?'statistic'
-        if options['statistic'] =~ /Minimum|Maximum|Average|Sum|SampleCount/
-          self.statistic = options['statistic']
+    def set_statistics
+      if options.key?'statistics'
+        if options['statistics'] =~ /Minimum|Maximum|Average|Sum|SampleCount/
+          self.statistics = options['statistics']
         else
-          raise StatisticTypeArgumentException, 'Statistic type must be one of: Minimum, Maximum, Average, Sum, SampleCount. '
+          raise statisticsTypeArgumentException, 'statistics type must be one of: Minimum, Maximum, Average, Sum, SampleCount. '
         end
       else
-        self.statistic = 'Average'
+        self.statistics = 'Average'
       end
     end
 
@@ -85,16 +85,16 @@ module ZabbixCloudwatch
     def run!
       test_aws_connectivity
       set_time_range
-      set_statistic
-      ret = aws.get_metric_statistics(namespace: options['namespace'],
+      set_statistics
+      ret = aws.get_metric_statisticss(namespace: options['namespace'],
                                       metric_name: options['metricname'],
                                       dimensions: [{ name: options['dimension-name'], value: options['dimension-value'] }],
                                       period: period,
                                       start_time: start_time,
                                       end_time: end_time,
-                                      statistics: [statistic])
+                                      statisticss: [statistics])
       begin
-        symbol = statistic.downcase.to_sym
+        symbol = statistics.downcase.to_sym
         symbol = :sample_count if symbol == :samplecount
         puts ret[:datapoints][0][symbol]
       rescue
