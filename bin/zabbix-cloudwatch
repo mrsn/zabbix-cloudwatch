@@ -20,7 +20,7 @@ opts = Getopt::Long.getopts(
   ['--dimension-name', Getopt::REQUIRED],
   ['--dimension-value', Getopt::REQUIRED],
   ['--monitoring-type', '-t', Getopt::REQUIRED],
-  ['--statistic', Getopt::REQUIRED],
+  ['--statistics', Getopt::REQUIRED],
   ['--aws-access-key', Getopt::REQUIRED],
   ['--aws-secret-key', Getopt::REQUIRED],
   ['--aws-region', Getopt::REQUIRED],
@@ -37,7 +37,7 @@ Usage: #{$PROGRAM_NAME}
   -d, --dimension-name    Dimension Name (AutoScalingGroupName, etc...)
   --dimension-value       Dimension Value
   -t, --monitoring-type   detailed|basic                            Default: basic
-  -s, --statistic         Minimum|Maximum|Average|Sum|SampleCount   Default: Average
+  -s, --statistics         Minimum|Maximum|Average|Sum|SampleCount   Default: Average
   --aws-access-key        AWS Access Key
   --aws-secret-key        AWS Secret Key
   --aws-region            AWS Region                                Default: us-east-1
